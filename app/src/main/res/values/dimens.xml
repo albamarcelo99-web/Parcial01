@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TXTitle">30sp</dimen>
+    <dimen name="MarginTopFirts">100dp</dimen>
+    <dimen name="MarginTop">10dp</dimen>
+    <dimen name="ButtonWidth">100dp</dimen>
+    <dimen name="ButtonHeight">100dp</dimen>
+    <dimen name="ButtonMargin">5dp</dimen>
+    <dimen name="TextSize">50sp</dimen>
+    <dimen name="TXSEasy">20sp</dimen>
+</resources>

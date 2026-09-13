@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Aplicacion_01_Puzzle</string>
+    <string name="appTitle">OCHO PUZZLE</string>
+    <string name="Mensaje">Mensaje</string>
+    <string name="Restart">Reiniciar el Juego</string>
+    <string name="BTMess">Desordenar</string>
+    <string name="BTVerify">Verificar</string>
+</resources>
