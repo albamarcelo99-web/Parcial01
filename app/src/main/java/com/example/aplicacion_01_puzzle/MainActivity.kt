@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         arrayOf("10", "9", "8", "7")
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -63,11 +62,6 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.BTN33)
         )
 
-
-        // ==========================================
-        // EVENTOS DE LOS 16 BOTONES
-        // ==========================================
-
         for (i in BTNButtons.indices) {
 
             BTNButtons[i].setOnClickListener {
@@ -105,11 +99,7 @@ class MainActivity : AppCompatActivity() {
         val fila = posicion / 4
         val columna = posicion % 4
 
-
-        // ==========================================
         // ARRIBA
-        // ==========================================
-
         if (fila > 0) {
 
             if (Tablero[fila - 1][columna] == "") {
@@ -125,8 +115,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // ABAJO
-
-
         if (fila < 3) {
 
             if (Tablero[fila + 1][columna] == "") {
@@ -142,7 +130,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // IZQUIERDA
-
         if (columna > 0) {
 
             if (Tablero[fila][columna - 1] == "") {
@@ -157,10 +144,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-
         // DERECHA
-
-
         if (columna < 3) {
 
             if (Tablero[fila][columna + 1] == "") {
@@ -171,28 +155,23 @@ class MainActivity : AppCompatActivity() {
                     fila,
                     columna + 1
                 )
-
                 return
             }
         }
     }
     // INTERCAMBIAR
-
     private fun intercambiar(
         fila1: Int,
         columna1: Int,
         fila2: Int,
         columna2: Int
     ) {
-
         // Guardar temporalmente
         val temporal = Tablero[fila1][columna1]
-
 
         // Intercambiar valores en Tablero
         Tablero[fila1][columna1] =
             Tablero[fila2][columna2]
-
         Tablero[fila2][columna2] =
             temporal
 
@@ -215,10 +194,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     // 1. REINICIAR JUEGO
-    private fun reiniciarJuego() {
-
+    private fun reiniciarJuego()
+    {
         // Estado inicial ordenado
         Tablero = arrayOf(
             arrayOf("1", "2", "3", "4"),
@@ -230,22 +208,21 @@ class MainActivity : AppCompatActivity() {
         TXVMessage.text = "Juego Reiniciado"
     }
     // 2. DESORDENAR JUEGO
-    private fun desordenarJuego() {
-
+    private fun desordenarJuego()
+    {
         // Realizar movimientos aleatorios
-        repeat(100) {
-
+        repeat(100)
+        {
             // Buscar el 0
             var filaCero = 0
             var columnaCero = 0
 
-
-            for (fila in 0..3) {
-
-                for (columna in 0..3) {
-
-                    if (Tablero[fila][columna] == "") {
-
+            for (fila in 0..3)
+            {
+                for (columna in 0..3)
+                {
+                    if (Tablero[fila][columna] == "")
+                    {
                         filaCero = fila
                         columnaCero = columna
                     }
@@ -253,7 +230,6 @@ class MainActivity : AppCompatActivity() {
             }
             // Lista de posiciones posibles
             val movimientos = mutableListOf<Pair<Int, Int>>()
-
 
             // Arriba
             if (filaCero > 0) {
@@ -263,7 +239,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-
             // Abajo
             if (filaCero < 3) {
 
@@ -271,7 +246,6 @@ class MainActivity : AppCompatActivity() {
                     Pair(filaCero + 1, columnaCero)
                 )
             }
-
 
             // Izquierda
             if (columnaCero > 0) {
@@ -281,7 +255,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-
             // Derecha
             if (columnaCero < 3) {
 
@@ -290,10 +263,8 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-
             // Elegir movimiento aleatorio
             val movimiento = movimientos.random()
-
 
             // Intercambiar con el cero
             val temporal =
