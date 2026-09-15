@@ -3,53 +3,34 @@ package com.example.aplicacion_01_puzzle
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
-    // ==========================================
-    // DECLARACIÓN DE CONTROLES
-    // ==========================================
-
-    // Array de 16 botones
     private lateinit var BTNButtons: Array<Button>
 
-    // TextView para mostrar mensajes
     private lateinit var TXVMessage: TextView
 
-    // Botones de control
     private lateinit var BTNRestart: Button
+
     private lateinit var BTNDisorder: Button
+
     private lateinit var BTNVerify: Button
-
-
-    // ==========================================
-    // MATRIZ TABLERO
-    // ==========================================
 
     private var Tablero = arrayOf(
         arrayOf("1", "2", "3", "4"),
-        arrayOf("5", "6", "7", "8"),
-        arrayOf("9", "10", "11", "12"),
-        arrayOf("13", "14", "15", "")
+        arrayOf("12", "13", "14", "5"),
+        arrayOf("11", "", "15", "6"),
+        arrayOf("10", "9", "8", "7")
     )
 
 
-    // ==========================================
-    // ON CREATE
-    // ==========================================
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-
-        // ==========================================
-        // ASIGNAR CONTROLES
-        // ==========================================
 
         TXVMessage = findViewById(R.id.TXTPlayer)
 
@@ -58,11 +39,6 @@ class MainActivity : AppCompatActivity() {
         BTNDisorder = findViewById(R.id.BTNMess)
 
         BTNVerify = findViewById(R.id.BTNVerify)
-
-
-        // ==========================================
-        // ARRAY DE LOS 16 BOTONES
-        // ==========================================
 
         BTNButtons = arrayOf(
 
@@ -89,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // ==========================================
-        // EVENTO DE LOS 16 BOTONES
+        // EVENTOS DE LOS 16 BOTONES
         // ==========================================
 
         for (i in BTNButtons.indices) {
@@ -101,11 +77,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-        // ==========================================
-        // BOTÓN REINICIAR
-        // ==========================================
-
         BTNRestart.setOnClickListener {
 
             reiniciarJuego()
@@ -113,20 +84,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // ==========================================
-        // BOTÓN DESORDENAR
-        // ==========================================
-
         BTNDisorder.setOnClickListener {
 
-            desordenarTablero()
+            desordenarJuego()
 
         }
-
-
-        // ==========================================
-        // BOTÓN VERIFICAR
-        // ==========================================
 
         BTNVerify.setOnClickListener {
 
@@ -134,20 +96,12 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-        // Mostrar tablero inicial
         actualizarTablero()
     }
 
-
-    // ==========================================
-    // MOVER FICHA
-    // ==========================================
-
     private fun moverFicha(posicion: Int) {
 
-        // Obtener fila y columna del botón presionado
-
+        // Obtener fila y columna
         val fila = posicion / 4
         val columna = posicion % 4
 
@@ -170,11 +124,8 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-
-
-        // ==========================================
         // ABAJO
-        // ==========================================
+
 
         if (fila < 3) {
 
@@ -190,11 +141,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-
-
-        // ==========================================
         // IZQUIERDA
-        // ==========================================
 
         if (columna > 0) {
 
@@ -211,10 +158,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-        // ==========================================
         // DERECHA
-        // ==========================================
+
 
         if (columna < 3) {
 
@@ -230,16 +175,8 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-
-
-        // Si llegó aquí, no encontró un espacio vacío
-        TXVMessage.text = "Movimiento no válido"
     }
-
-
-    // ==========================================
-    // INTERCAMBIAR VALORES
-    // ==========================================
+    // INTERCAMBIAR
 
     private fun intercambiar(
         fila1: Int,
@@ -248,28 +185,19 @@ class MainActivity : AppCompatActivity() {
         columna2: Int
     ) {
 
-        // Guardar temporalmente el valor
+        // Guardar temporalmente
         val temporal = Tablero[fila1][columna1]
 
-        // Intercambiar en la matriz
+
+        // Intercambiar valores en Tablero
         Tablero[fila1][columna1] =
             Tablero[fila2][columna2]
 
         Tablero[fila2][columna2] =
             temporal
 
-
-        // Actualizar los botones
         actualizarTablero()
-
-
-        TXVMessage.text = "Movimiento realizado"
     }
-
-
-    // ==========================================
-    // ACTUALIZAR LOS BOTONES
-    // ==========================================
 
     private fun actualizarTablero() {
 
@@ -277,10 +205,10 @@ class MainActivity : AppCompatActivity() {
 
             for (columna in 0..3) {
 
-                // Convertir fila y columna
-                // en una posición del array
-
                 val posicion = fila * 4 + columna
+                if(Tablero[fila][columna]=="0"){
+                    BTNButtons[posicion].text=""
+                }
 
                 BTNButtons[posicion].text =
                     Tablero[fila][columna]
@@ -288,19 +216,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 1. REINICIAR JUEGO
+    private fun reiniciarJuego() {
 
-    // ==========================================
-    // DESORDENAR TABLERO
-    // ==========================================
+        // Estado inicial ordenado
+        Tablero = arrayOf(
+            arrayOf("1", "2", "3", "4"),
+            arrayOf("12", "13", "14", "5"),
+            arrayOf("11", "", "15", "6"),
+            arrayOf("10", "9", "8", "7")
+        )
+        actualizarTablero()
+        TXVMessage.text = "Juego Reiniciado"
+    }
+    // 2. DESORDENAR JUEGO
+    private fun desordenarJuego() {
 
-    private fun desordenarTablero() {
-
-        // Realizar 100 movimientos válidos
+        // Realizar movimientos aleatorios
         repeat(100) {
 
-            // Buscar el espacio vacío
-            var filaVacia = 0
-            var columnaVacia = 0
+            // Buscar el 0
+            var filaCero = 0
+            var columnaCero = 0
+
 
             for (fila in 0..3) {
 
@@ -308,160 +246,108 @@ class MainActivity : AppCompatActivity() {
 
                     if (Tablero[fila][columna] == "") {
 
-                        filaVacia = fila
-                        columnaVacia = columna
+                        filaCero = fila
+                        columnaCero = columna
                     }
                 }
             }
-
-
-            // Crear lista de movimientos posibles
+            // Lista de posiciones posibles
             val movimientos = mutableListOf<Pair<Int, Int>>()
 
 
             // Arriba
-            if (filaVacia > 0) {
+            if (filaCero > 0) {
+
                 movimientos.add(
-                    Pair(filaVacia - 1, columnaVacia)
+                    Pair(filaCero - 1, columnaCero)
                 )
             }
 
 
             // Abajo
-            if (filaVacia < 3) {
+            if (filaCero < 3) {
+
                 movimientos.add(
-                    Pair(filaVacia + 1, columnaVacia)
+                    Pair(filaCero + 1, columnaCero)
                 )
             }
 
 
             // Izquierda
-            if (columnaVacia > 0) {
+            if (columnaCero > 0) {
+
                 movimientos.add(
-                    Pair(filaVacia, columnaVacia - 1)
+                    Pair(filaCero, columnaCero - 1)
                 )
             }
 
 
             // Derecha
-            if (columnaVacia < 3) {
+            if (columnaCero < 3) {
+
                 movimientos.add(
-                    Pair(filaVacia, columnaVacia + 1)
+                    Pair(filaCero, columnaCero + 1)
                 )
             }
 
 
-            // Elegir un movimiento aleatorio
+            // Elegir movimiento aleatorio
             val movimiento = movimientos.random()
 
 
-            // Intercambiar
-            intercambiarSinMensaje(
-                filaVacia,
-                columnaVacia,
-                movimiento.first,
-                movimiento.second
-            )
+            // Intercambiar con el cero
+            val temporal =
+                Tablero[movimiento.first][movimiento.second]
+
+            Tablero[movimiento.first][movimiento.second] =
+                Tablero[filaCero][columnaCero]
+
+            Tablero[filaCero][columnaCero] =
+                temporal
         }
 
 
+        // Actualizar botones
         actualizarTablero()
 
-        TXVMessage.text = "Tablero desordenado"
+
+        // Mensaje solicitado por el docente
+        TXVMessage.text = "Completado"
     }
-
-
-    // ==========================================
-    // INTERCAMBIAR SIN MOSTRAR MENSAJE
-    // ==========================================
-
-    private fun intercambiarSinMensaje(
-        fila1: Int,
-        columna1: Int,
-        fila2: Int,
-        columna2: Int
-    ) {
-
-        val temporal = Tablero[fila1][columna1]
-
-        Tablero[fila1][columna1] =
-            Tablero[fila2][columna2]
-
-        Tablero[fila2][columna2] =
-            temporal
-    }
-
-
-    // ==========================================
-    // REINICIAR
-    // ==========================================
-
-    private fun reiniciarJuego() {
-
-        Tablero = arrayOf(
-            arrayOf("1", "2", "3", "4"),
-            arrayOf("5", "6", "7", "8"),
-            arrayOf("9", "10", "11", "12"),
-            arrayOf("13", "14", "15", "")
-        )
-
-
-        actualizarTablero()
-
-        TXVMessage.text = "Juego reiniciado"
-    }
-
-
-    // ==========================================
-    // VERIFICAR
-    // ==========================================
+    // 3. VERIFICAR JUEGO
 
     private fun verificarJuego() {
 
-        var correcto = true
+        // Estado que el docente considera ordenado
+        val tableroOrdenado = arrayOf(
+            arrayOf("1", "2", "3", "4"),
+            arrayOf("12", "13", "14", "5"),
+            arrayOf("11", "", "15", "6"),
+            arrayOf("10", "9", "8", "7")
+        )
+        var ordenado = true
 
-        var contador = 1
-
-
+        // Comparar Tablero con tableroOrdenado
         for (fila in 0..3) {
 
             for (columna in 0..3) {
 
-                if (fila == 3 && columna == 3) {
+                if (Tablero[fila][columna] !=
+                    tableroOrdenado[fila][columna]
+                ) {
 
-                    if (Tablero[fila][columna] != "") {
-
-                        correcto = false
-                    }
-
-                } else {
-
-                    if (Tablero[fila][columna] != contador.toString()) {
-
-                        correcto = false
-                    }
-
-                    contador++
+                    ordenado = false
                 }
             }
         }
+        // Mostrar mensaje correspondiente
+        if (ordenado) {
 
-
-        if (correcto) {
-
-            TXVMessage.text =
-                "¡FELICIDADES! PUZZLE COMPLETADO"
-
-            Toast.makeText(
-                this,
-                "¡Ganaste!",
-                Toast.LENGTH_LONG
-            ).show()
+            TXVMessage.text = "Juego Ordenado"
 
         } else {
 
-            TXVMessage.text =
-                "El puzzle todavía no está ordenado"
+            TXVMessage.text = "Juego Desordenado"
         }
     }
 }
